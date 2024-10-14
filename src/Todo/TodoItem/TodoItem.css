@@ -1,0 +1,14 @@
+
+.toggle{
+  -webkit-appearance: none;
+  border: 0.1rem solid gray;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 1rem;
+  margin-right: 0.8rem;
+  outline: none;
+  position: relative;
+  transition: background-color 0.2s;
+  width: 1rem;
+}
+
