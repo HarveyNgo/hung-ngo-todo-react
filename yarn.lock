@@ -3230,6 +3230,11 @@ cjs-module-lexer@^1.0.0:
   resolved "https://registry.npmjs.org/cjs-module-lexer/-/cjs-module-lexer-1.4.1.tgz"
   integrity sha512-cuSVIHi9/9E/+821Qjdvngor+xpnlwnuwIyZOaLmHBVdXL+gP+I6QQB9VkO7RI77YIcTV+S1W9AreJ5eN63JBA==
 
+classnames@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.npmjs.org/classnames/-/classnames-2.5.1.tgz"
+  integrity sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==
+
 clean-css@^5.2.2:
   version "5.3.3"
   resolved "https://registry.npmjs.org/clean-css/-/clean-css-5.3.3.tgz"
@@ -9104,6 +9109,16 @@ to-regex-range@^5.0.1:
   integrity sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==
   dependencies:
     is-number "^7.0.0"
+
+todomvc-app-css@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.npmjs.org/todomvc-app-css/-/todomvc-app-css-2.4.3.tgz"
+  integrity sha512-mSnWZaKBWj9aQcFRsGguY/a8O8NR8GmecD48yU1rzwNemgZa/INLpIsxxMiToFGVth+uEKBrQ7IhWkaXZxwq5Q==
+
+todomvc-common@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.npmjs.org/todomvc-common/-/todomvc-common-1.0.5.tgz"
+  integrity sha512-D8kEJmxVMQIWwztEdH+WeiAfXRbbSCpgXq4NkYi+gduJ2tr8CNq7sYLfJvjpQ10KD9QxJwig57rvMbV2QAESwQ==
 
 toidentifier@1.0.1:
   version "1.0.1"
