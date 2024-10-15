@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { Todo } from "../../Type";
-import "./TodoItem.css";
+import "./style.css";
 
 interface Prop {
   onRemove: (todo: Todo) => void;
@@ -8,24 +7,24 @@ interface Prop {
   todo: Todo;
 }
 const TodoList: React.FC<Prop> = ({ todo, onRemove, onToggle }) => {
-  const [showDelete, setShowDelete] = useState(false);
+  const renderCss = () =>
+    todo.completed ? "item-container completed" : "item-container";
+
   return (
-    <li onClick={() => setShowDelete(!showDelete)}>
-      <input
-        className="toggle"
-        type="checkbox"
-        onClick={() => onToggle(todo)}
-      />
-      <label>{todo.title}</label>
-      {/* {showDelete && (
-        <button className="destroy" onClick={() => onRemove(todo)}>
-          delete
-        </button>
-      )} */}
+    <div className={renderCss()}>
+      <div className="item-title-container">
+        <input
+          className="toggle"
+          type="checkbox"
+          onClick={() => onToggle(todo)}
+        />
+        <label className="item-title">{todo.title}</label>
+      </div>
+
       <button className="destroy" onClick={() => onRemove(todo)}>
         delete
       </button>
-    </li>
+    </div>
   );
 };
 

@@ -1,18 +1,16 @@
-import { useTodoStore } from "../../store";
 import { Todo } from "../../Type";
 import TodoItem from "../TodoItem";
-import "./TodoList.css";
+import "./style.css";
 
 interface Prop {
   onRemove: (todo: Todo) => void;
   onToggle: (todo: Todo) => void;
+  visibleItems: Todo[];
 }
-const TodoList: React.FC<Prop> = ({ onRemove, onToggle }) => {
-  const { items } = useTodoStore();
-
+const TodoList: React.FC<Prop> = ({ onRemove, onToggle, visibleItems }) => {
   return (
-    <ul className="todo-list">
-      {items.map((todo) => {
+    <div className="todo-list">
+      {visibleItems.map((todo) => {
         return (
           <TodoItem
             key={todo.id}
@@ -22,7 +20,7 @@ const TodoList: React.FC<Prop> = ({ onRemove, onToggle }) => {
           />
         );
       })}
-    </ul>
+    </div>
   );
 };
 

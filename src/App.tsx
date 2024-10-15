@@ -1,24 +1,30 @@
 import React, { useState } from "react";
 import "./App.css";
-import { useTodoStore } from "./store";
+import { useTodoStore, ViewType } from "./store";
 import { v4 as uuidv4 } from "uuid";
-import TodoList from "./Todo/TodoList/TodoList";
-import { Todo } from "./Type";
+import TodoList from "./Todo/TodoList";
+import Footer from "./Todo/Footer";
 
 function App() {
   const [newTitle, setNewTitle] = useState("");
-  const { addTodo, items, clearCompleted, toggleTodo, removeTodo } =
-    useTodoStore();
+  const {
+    addTodo,
+    items,
+    clearCompleted,
+    toggleTodo,
+    removeTodo,
+    setViewType,
+    currentViewType,
+  } = useTodoStore();
 
-  console.log("hung items:", items);
   const addTodoHandler = () => {
     if (newTitle.trim() !== "") {
       addTodo({ id: uuidv4(), title: newTitle, completed: false });
+      setNewTitle("");
     }
   };
 
   const onKeyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    console.log("hung e:", e);
     if (e.key.toLowerCase() === "enter") {
       addTodoHandler();
     }
@@ -27,30 +33,41 @@ function App() {
     setNewTitle(e.currentTarget.value);
   };
 
+  const onViewTypeHandler = (viewType: ViewType) => {
+    setViewType(viewType);
+  };
+
+  let visibleItems = [...items];
+  if (currentViewType === ViewType.COMPLETED) {
+    visibleItems = visibleItems.filter((li) => li.completed);
+  } else if (currentViewType === ViewType.ACTIVE) {
+    visibleItems = visibleItems.filter((li) => !li.completed);
+  }
+
   return (
     <div className="container">
-      <h1>TODO List</h1>
+      <h1>TODOs</h1>
 
       <div>
         <input
+          value={newTitle}
           className="todo-input"
           type="text"
           placeholder="what need to be done?"
           onKeyDown={onKeyDownHandler}
           onChange={onChangeHandler}
         />
-        <TodoList onRemove={removeTodo} onToggle={toggleTodo} />
-        <div className="footer">
-          <span className="todo-count">2 items left!</span>
-          <div className="filters" data-testid="footer-navigation">
-            <button className="all">All</button>
-            <button className="active">Active</button>
-            <button className="completed">Completed</button>
-          </div>
-          <button className="clear-completed" onClick={clearCompleted}>
-            Clear completed
-          </button>
-        </div>
+        <TodoList
+          onRemove={removeTodo}
+          onToggle={toggleTodo}
+          visibleItems={visibleItems}
+        />
+        <Footer
+          currentViewType={currentViewType}
+          visibleItems={visibleItems}
+          onViewTypeHandler={onViewTypeHandler}
+          clearCompleted={clearCompleted}
+        />
       </div>
     </div>
   );

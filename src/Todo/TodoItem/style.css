@@ -1,0 +1,52 @@
+.item-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-top: solid 1px #e6e6e6;
+  padding: 10px;
+
+  &.completed  .item-title{
+    text-decoration: line-through;
+  }
+  &.completed  input[type="checkbox"]{
+    background-color: gray;
+  }
+
+
+}
+.item-title-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+}
+
+.toggle{
+  -webkit-appearance: none;
+  border: 0.1rem solid gray;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 1rem;
+  margin-right: 0.8rem;
+  outline: none;
+  position: relative;
+  transition: background-color 0.2s;
+  width: 1rem;
+}
+
+.destroy{
+  border: none;
+  color: red;
+  display: none;
+  text-decoration: none;
+}
+
+
+
+.item-container:hover .destroy {
+  display: inline-block;
+}
+
+
+
