@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./App.css";
-import { useTodoStore, ViewType } from "./store";
+import { useTodoStore } from "./store";
 import { v4 as uuidv4 } from "uuid";
 import TodoList from "./Todo/TodoList";
 import Footer from "./Todo/Footer";
+import { FilterType } from "./Type";
 
 function App() {
   const [newTitle, setNewTitle] = useState("");
@@ -13,8 +14,8 @@ function App() {
     clearCompleted,
     toggleTodo,
     removeTodo,
-    setViewType,
-    currentViewType,
+    setFilterType,
+    currentFilterType,
   } = useTodoStore();
 
   const addTodoHandler = () => {
@@ -33,14 +34,10 @@ function App() {
     setNewTitle(e.currentTarget.value);
   };
 
-  const onViewTypeHandler = (viewType: ViewType) => {
-    setViewType(viewType);
-  };
-
   let visibleItems = [...items];
-  if (currentViewType === ViewType.COMPLETED) {
+  if (currentFilterType === FilterType.COMPLETED) {
     visibleItems = visibleItems.filter((li) => li.completed);
-  } else if (currentViewType === ViewType.ACTIVE) {
+  } else if (currentFilterType === FilterType.ACTIVE) {
     visibleItems = visibleItems.filter((li) => !li.completed);
   }
 
@@ -63,9 +60,9 @@ function App() {
           visibleItems={visibleItems}
         />
         <Footer
-          currentViewType={currentViewType}
+          currentFilterType={currentFilterType}
           visibleItems={visibleItems}
-          onViewTypeHandler={onViewTypeHandler}
+          onFilterTypeHandler={setFilterType}
           clearCompleted={clearCompleted}
         />
       </div>

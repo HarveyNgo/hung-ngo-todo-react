@@ -1,18 +1,17 @@
-import { ViewType } from "../../store";
-import { Todo } from "../../Type";
+import { Todo, FilterType } from "../../Type";
 import "./style.css";
 
 interface Prop {
-  currentViewType: ViewType;
+  currentFilterType: FilterType;
   visibleItems: Todo[];
-  onViewTypeHandler: (viewType: ViewType) => void;
+  onFilterTypeHandler: (filterType: FilterType) => void;
   clearCompleted: () => void;
 }
 
 const Footer: React.FC<Prop> = ({
-  currentViewType,
+  currentFilterType,
   visibleItems,
-  onViewTypeHandler,
+  onFilterTypeHandler,
   clearCompleted,
 }) => {
   return (
@@ -20,25 +19,27 @@ const Footer: React.FC<Prop> = ({
       <span className="todo-count">{visibleItems.length} items left!</span>
       <div className="filters">
         <button
-          className={currentViewType === ViewType.ALL ? "selected" : ""}
+          className={currentFilterType === FilterType.ALL ? "selected" : ""}
           onClick={() => {
-            onViewTypeHandler(ViewType.ALL);
+            onFilterTypeHandler(FilterType.ALL);
           }}
         >
           All
         </button>
         <button
-          className={currentViewType === ViewType.ACTIVE ? "selected" : ""}
+          className={currentFilterType === FilterType.ACTIVE ? "selected" : ""}
           onClick={() => {
-            onViewTypeHandler(ViewType.ACTIVE);
+            onFilterTypeHandler(FilterType.ACTIVE);
           }}
         >
           Active
         </button>
         <button
-          className={currentViewType === ViewType.COMPLETED ? "selected" : ""}
+          className={
+            currentFilterType === FilterType.COMPLETED ? "selected" : ""
+          }
           onClick={() => {
-            onViewTypeHandler(ViewType.COMPLETED);
+            onFilterTypeHandler(FilterType.COMPLETED);
           }}
         >
           Completed

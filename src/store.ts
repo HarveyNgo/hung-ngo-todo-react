@@ -1,20 +1,15 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { Todo } from "./Type";
+import { FilterType, Todo } from "./Type";
 
-export enum ViewType {
-  ALL = "ALL",
-  ACTIVE = "ACTIVE",
-  COMPLETED = "COMPLETED",
-}
 interface TodoState {
   items: Todo[];
-  currentViewType: ViewType;
+  currentFilterType: FilterType;
   addTodo: (todo: Todo) => void;
   removeTodo: (todo: Todo) => void;
   clearCompleted: () => void;
   toggleTodo: (todo: Todo) => void;
-  setViewType: (view: ViewType) => void;
+  setFilterType: (view: FilterType) => void;
 }
 
 export const useTodoStore = create<TodoState>()(
@@ -22,7 +17,7 @@ export const useTodoStore = create<TodoState>()(
     persist(
       (set) => ({
         items: [],
-        currentViewType: ViewType.ALL,
+        currentFilterType: FilterType.ALL,
         addTodo: (todo) => set((state) => ({ items: [...state.items, todo] })),
         removeTodo: (todo) =>
           set((state) => ({
@@ -38,7 +33,7 @@ export const useTodoStore = create<TodoState>()(
               t.id === todo.id ? { ...t, completed: !t.completed } : t
             ),
           })),
-        setViewType: (v) => set(() => ({ currentViewType: v })),
+        setFilterType: (v) => set(() => ({ currentFilterType: v })),
       }),
       {
         name: "todo-react-app",
