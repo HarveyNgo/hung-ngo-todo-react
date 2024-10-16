@@ -10,6 +10,8 @@ interface TodoState {
   clearCompleted: () => void;
   toggleTodo: (todo: Todo) => void;
   setFilterType: (view: FilterType) => void;
+  toggleAll: (all: boolean) => void;
+  saveTodo: (todoToSave: Todo, updateTitle: string) => void;
 }
 
 export const useTodoStore = create<TodoState>()(
@@ -34,6 +36,18 @@ export const useTodoStore = create<TodoState>()(
             ),
           })),
         setFilterType: (v) => set(() => ({ currentFilterType: v })),
+        toggleAll: (all) =>
+          set((state) => ({
+            items: state.items.map((t) => {
+              return { ...t, completed: all };
+            }),
+          })),
+        saveTodo: (todoToSave, updateTitle) =>
+          set((state) => ({
+            items: state.items.map((t) =>
+              t.id === todoToSave.id ? { ...t, title: updateTitle } : t
+            ),
+          })),
       }),
       {
         name: "todo-react-app",

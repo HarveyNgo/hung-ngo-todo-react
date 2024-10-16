@@ -1,83 +1,9 @@
-// import React, { useState } from "react";
-// import "./App.css";
-// import { useTodoStore } from "./store";
-// import { v4 as uuidv4 } from "uuid";
-// import TodoList from "./Todo/TodoList";
-// import Footer from "./Todo/Footer";
-// import { FilterType } from "./Type";
-
-// function App() {
-//   const [newTitle, setNewTitle] = useState("");
-//   const {
-//     addTodo,
-//     items,
-//     clearCompleted,
-//     toggleTodo,
-//     removeTodo,
-//     setFilterType,
-//     currentFilterType,
-//   } = useTodoStore();
-
-//   const addTodoHandler = () => {
-//     if (newTitle.trim() !== "") {
-//       addTodo({ id: uuidv4(), title: newTitle, completed: false });
-//       setNewTitle("");
-//     }
-//   };
-
-//   const onKeyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-//     if (e.key.toLowerCase() === "enter") {
-//       addTodoHandler();
-//     }
-//   };
-//   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setNewTitle(e.currentTarget.value);
-//   };
-
-//   let visibleItems = [...items];
-//   if (currentFilterType === FilterType.COMPLETED) {
-//     visibleItems = visibleItems.filter((li) => li.completed);
-//   } else if (currentFilterType === FilterType.ACTIVE) {
-//     visibleItems = visibleItems.filter((li) => !li.completed);
-//   }
-
-//   return (
-//     <div className="container">
-//       <h1>TODOs</h1>
-
-//       <div>
-//         <input
-//           value={newTitle}
-//           className="todo-input"
-//           type="text"
-//           placeholder="what need to be done?"
-//           onKeyDown={onKeyDownHandler}
-//           onChange={onChangeHandler}
-//         />
-//         <TodoList
-//           onRemove={removeTodo}
-//           onToggle={toggleTodo}
-//           visibleItems={visibleItems}
-//         />
-//         <Footer
-//           currentFilterType={currentFilterType}
-//           visibleItems={visibleItems}
-//           onFilterTypeHandler={setFilterType}
-//           clearCompleted={clearCompleted}
-//         />
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default App;
-import ReactDOM from "react-dom";
 import Footer from "./components/footer";
 import Main from "./components/main";
 import { useTodoStore } from "./store";
-import { FilterType } from "./Type";
 import { useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { ENTER_KEY } from "./constants";
 
 function App() {
   const {
@@ -88,11 +14,10 @@ function App() {
     removeTodo,
     setFilterType,
     currentFilterType,
+    toggleAll,
   } = useTodoStore();
 
   const inputRef = useRef<HTMLInputElement>(null);
-
-  console.log("hung items:", items);
 
   var activeTodoCount = items.reduce(function (accum, todo) {
     return todo.completed ? accum : accum + 1;
@@ -101,7 +26,7 @@ function App() {
   var completedTodoCount = items.length - activeTodoCount;
 
   const handleNewTodoKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key.toLowerCase() !== "enter") {
+    if (e.key.toLowerCase() !== ENTER_KEY) {
       return;
     }
 
@@ -110,9 +35,16 @@ function App() {
     if (inputRef) {
       var val = inputRef.current?.value.trim();
       if (val) {
-        addTodo({ id: uuidv4(), title: val, completed: false, editing: false });
+        addTodo({ id: uuidv4(), title: val, completed: false });
+        if (inputRef.current) {
+          inputRef.current.value = "";
+        }
       }
     }
+  };
+
+  const onToggleAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    toggleAll(e.target.checked);
   };
 
   return (
@@ -127,16 +59,21 @@ function App() {
           autoFocus={true}
         />
       </header>
-      <Main onToggle={toggleTodo} onDestroy={removeTodo} />
-      <Footer
+      <Main
         activeTodoCount={activeTodoCount}
-        completedTodoCount={completedTodoCount}
-        currentFilterType={currentFilterType}
-        onFilterTypeHandler={setFilterType}
-        clearCompleted={clearCompleted}
+        onToggle={toggleTodo}
+        onDestroy={removeTodo}
+        onToggleAll={onToggleAll}
       />
-      {/* {main}
-      {footer} */}
+      {(activeTodoCount > 0 || completedTodoCount > 0) && (
+        <Footer
+          activeTodoCount={activeTodoCount}
+          completedTodoCount={completedTodoCount}
+          currentFilterType={currentFilterType}
+          onFilterTypeHandler={setFilterType}
+          clearCompleted={clearCompleted}
+        />
+      )}
     </div>
   );
 }
